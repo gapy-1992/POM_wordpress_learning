@@ -10,12 +10,14 @@ import pageObjects.bankguru.HomePageObject;
 import pageObjects.bankguru.LoginPageObject;
 import pageObjects.bankguru.RegisterPageObject;
 
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class Login_01_RegisterAndLogin {
     WebDriver driver;
     LoginPageObject loginPage;
     RegisterPageObject registerPage;
+    HomePageObject homePage;
     String userIDValue, passwordValue, loginPageUrl;
     @BeforeClass
     public void beforeClass() {
@@ -35,7 +37,7 @@ public class Login_01_RegisterAndLogin {
         loginPage.clickToHereLink();
         //
         registerPage = new RegisterPageObject(driver);
-        registerPage.inputToEmailTextBox();
+        registerPage.inputToEmailTextBox("test" + randomNumber() + "@yopmail.com");
         registerPage.clickToSubmitButton();
         userIDValue = registerPage.getUserIdText();
         passwordValue = registerPage.getPasswordText();
@@ -48,8 +50,8 @@ public class Login_01_RegisterAndLogin {
 
     @Test
     public void TC_02_Login() {
-        loginPage.inputToUserIDTextBox();
-        loginPage.inputToPasswordTextBox();
+        loginPage.inputToUserIDTextBox(userIDValue);
+        loginPage.inputToPasswordTextBox(passwordValue);
         loginPage.clickToLoginButton();
 
         homePage = new HomePageObject(driver);
@@ -59,5 +61,10 @@ public class Login_01_RegisterAndLogin {
     @Test
     public void TC_03_Something_TODO() {
 
+    }
+
+    public int randomNumber() {
+        Random random = new Random();
+        return random.nextInt(1000);
     }
 }
